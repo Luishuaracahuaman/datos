@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Formulario Registro</title>
+</head>
+<body>
+    <form id="registroForm">
+        <label>Nombre:</label>
+        <input type="text" id="nombre">
+        <br><br>
+        <label>Apellidos:</label>
+        <input type="text" id="apellidos">
+        <br><br>
+        <button type="submit">Enviar</button>
+    </form>
+
+    <script>
+        document.getElementById('registroForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const datos = {
+                nombre: document.getElementById('nombre').value,
+                apellidos: document.getElementById('apellidos').value
+            };
+
+            console.log('Enviando datos:', datos); // Para ver qué datos se envían
+
+            fetch('http://localhost:3000/guardar', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(datos)
+            })
+            .then(response => {
+                console.log('Respuesta recibida:', response); // Para ver la respuesta
+                return response.text();
+            })
+            .then(data => {
+                console.log('Datos:', data); // Para ver los datos de respuesta
+                alert('Guardado correctamente');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error al guardar');
+            });
+        });
+    </script>
+</body>
+</html>
